@@ -38,13 +38,17 @@ var path2 = {
     point4: [46.1904344896661, 21.319150513422613]
 };
 
-var group = L.layerGroup().addTo(map);
+var markers = L.layerGroup().addTo(map);
 var tramStations = L.layerGroup().addTo(map);
 var busStations = L.layerGroup().addTo(map);
 var stations = L.layerGroup().addTo(map);
 var vehicles = L.layerGroup().addTo(map);
 var trams = L.layerGroup().addTo(map);
 var busses = L.layerGroup().addTo(map);
+var vehicles = L.layerGroup();
+var stations = L.layerGroup();
+var group = L.layerGroup();
+
 
 var busIcon = L.icon({
     iconUrl: '../img/bus.png',
@@ -123,18 +127,19 @@ var orangeCircleIcon = L.icon({
 
 });
 
+
+
 function updateLocation(vehicle, lat, long)
 {
+
     let newLatLng = new L.LatLng(lat, long);
-    vehicle.setLatLng(newLatLng);
+    vehicle.setLatLng(newLatLng); 
 
     if(vehicle.getTooltip() != undefined)
     {
-        console.log(vehicle.getTooltip(), newLatLng)
+        //console.log(vehicle.getTooltip(), newLatLng)
         vehicle.setTooltipContent('Numar 15<br>' + newLatLng);
     }
-
-    
 }
 
 let count1 = 0;
@@ -210,14 +215,14 @@ function successCallback(position)
     let lat = position.coords.latitude;
     let long = position.coords.longitude;
 
-    console.log(long, lat);
+    //console.log(long, lat);
     longHTML.innerHTML = 'long: ' + long;
     latHTML.innerHTML = 'lat: ' + lat;
 
-    group.clearLayers();
+    markers.clearLayers();
 
     var marker = L.marker([lat, long]);
-    group.addLayer(marker);
+    markers.addLayer(marker);
 
     //map.setView([lat, long], 17);
 }
@@ -229,20 +234,32 @@ function errorCallback(error)
 
 function onIconClicked(e)
 {
-    console.log(e.target);
+    //console.log(e.target);
 
     e.target.bindTooltip().setTooltipContent('Numar: 15<br>' + e.latlng).openTooltip();
 
 }
 
+function testrequest() {
+
+    fetch("http://uav-easy-exams.xyz:5000/api/", {
+        method: "GET",
+        origin: "*"
+    }).then(response => console.log(response.body));
+
+}
+
 function onDeviceReady() {
-    //document.getElementById('long').innerHTML = permissions;
+    
     navigator.geolocation.watchPosition(successCallback, errorCallback, {timeout: 30000, enableHighAccuracy: true, maximumAge: 10000});
 
     // Cordova is now initialized. Have fun!
+    //TODO: change the color of the icons
+    //TODO: fetch api
+    testrequest();
 
-    map.on('zoom', (e) => {
-        console.log(map.getZoom());
+    map.on('zoom', () => {
+        //console.log(map.getZoom());
         if(map.getZoom() < 12)
         {
             trams.eachLayer(function (layer) {
@@ -281,36 +298,62 @@ function onDeviceReady() {
             });       
         }
     });   
-    busses.addLayer(L.marker([46.186504598160354, 21.31672212393795], {icon: busIcon}).on('click', onIconClicked));
-    trams.addLayer(L.marker([46.19415956018912, 21.32930712676395], {icon: tramIcon}).on('click', onIconClicked));
-    busses.addLayer(L.marker([46.211714584686376, 21.28094521106874], {icon: busIcon}).on('click', onIconClicked));
-    trams.addLayer(L.marker([46.17659892614944, 21.360590184119104], {icon: tramIcon}).on('click', onIconClicked));
-    busses.addLayer(L.marker([path1.point1[0], path1.point1[1]], {icon: busIcon}).on('click', onIconClicked));
-    busses.addLayer(L.marker([path2.point1[0], path2.point1[1]], {icon: busIcon}).on('click', onIconClicked));
 
-    console.log(busses);
-    console.log(trams);
+    busses.addLayer(L.marker([46.186504598160354, 21.31672212393795], {icon: busIcon}))
+    trams.addLayer(L.marker([46.19415956018912, 21.32930712676395], {icon: tramIcon}))
+    busses.addLayer(L.marker([46.211714584686376, 21.28094521106874], {icon: busIcon}))
+    trams.addLayer(L.marker([46.17659892614944, 21.360590184119104], {icon: tramIcon}))
+    busses.addLayer(L.marker([path1.point1[0], path1.point1[1]], {icon: busIcon}))
+    busses.addLayer(L.marker([path2.point1[0], path2.point1[1]], {icon: busIcon}))
 
-    tramStations.addLayer(L.marker([46.192717706185675, 21.30671085657869], {icon: tramStationIcon}).on('click', onIconClicked)); //Piata UTA 1
-    tramStations.addLayer(L.marker([46.19198489656148, 21.309036999309342], {icon: tramStationIcon}).on('click', onIconClicked)); //Piata UTA 2
-    busStations.addLayer(L.marker([46.19201679592439, 21.309687798703436], {icon: busStationIcon}).on('click', onIconClicked)); //Piata UTA 2
-    tramStations.addLayer(L.marker([46.19445649475108, 21.30238895692193], {icon: tramStationIcon}).on('click', onIconClicked)); //Electrometal
-    tramStations.addLayer(L.marker([46.19523231563144, 21.30066520759806], {icon: tramStationIcon}).on('click', onIconClicked)); //Electrometal
-    busStations.addLayer(L.marker([46.19560175934345, 21.299444911490667], {icon: busStationIcon}).on('click', onIconClicked)); //Electrometal
-    tramStations.addLayer(L.marker([46.19900080754985, 21.29559201591539], {icon: tramStationIcon}).on('click', onIconClicked)); //Fortuna
-    tramStations.addLayer(L.marker([46.199825705922876, 21.29434886697271], {icon: tramStationIcon}).on('click', onIconClicked)); //Fortuna
+    //console.log(busses);
+    //console.log(trams);
 
+    //red icons 
+
+    tramStations.addLayer(L.marker([46.192717706185675, 21.30671085657869], {icon: tramStationIcon})) //Piata UTA 1
+    tramStations.addLayer(L.marker([46.19198489656148, 21.309036999309342], {icon: tramStationIcon})) //Piata UTA 2
+    busStations.addLayer(L.marker([46.19201679592439, 21.309687798703436], {icon: busStationIcon})) //Piata UTA 2
+    tramStations.addLayer(L.marker([46.19445649475108, 21.30238895692193], {icon: tramStationIcon})) //Electrometal
+    tramStations.addLayer(L.marker([46.19523231563144, 21.30066520759806], {icon: tramStationIcon})) //Electrometal
+    busStations.addLayer(L.marker([46.19560175934345, 21.299444911490667], {icon: busStationIcon})) //Electrometal
+    tramStations.addLayer(L.marker([46.19900080754985, 21.29559201591539], {icon: tramStationIcon})) //Fortuna
+    tramStations.addLayer(L.marker([46.199825705922876, 21.29434886697271], {icon: tramStationIcon})) //Fortuna
+
+    trams.eachLayer((layer) => {
+        console.log(layer.getLatLng());
+        vehicles.addLayer(layer);
+        group.addLayer(layer);
+    });
+
+    busses.eachLayer((layer) => {
+        vehicles.addLayer(layer);
+        group.addLayer(layer);
+
+    });
+    
+    tramStations.eachLayer((layer) => {
+        stations.addLayer(layer);
+        group.addLayer(layer);
+
+    });
+    
+    busStations.eachLayer((layer) => {
+        stations.addLayer(layer);
+        group.addLayer(layer);
+
+    });
+    
+    console.log(vehicles);
+    console.log("stations");
+    console.log(stations);
+
+
+    group.eachLayer((layer) => {
+        layer.bindTooltip().setTooltipContent('Numar: 15<br>' + layer.getLatLng());
+    });
     //var map = L.map('map').setView([46.186504598160354, 21.31672212393795], 11); <- Arad
-    //s3://{bucket}{prefix}/{z}/{x}/{y}.{extension}
-
-    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //     attribution: '© OpenStreetMap contributors'
-    // }).addTo(map);
-
-    // L.tileLayer('s3://tile.stamen.com/terrain/{z}/{x}/{y}.png', {
-    //     attribution: 'Map tiles by Stamen Design, under CC BY 4.0. Data by OpenStreetMap, under ODbL.'
-    // }).addTo(map);
-
+   
     L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.{ext}', {
 	minZoom: 0,
 	maxZoom: 18,
