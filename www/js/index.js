@@ -301,12 +301,24 @@ function onDeviceReady() {
     tramStations.addLayer(L.marker([46.199825705922876, 21.29434886697271], {icon: tramStationIcon}).on('click', onIconClicked)); //Fortuna
 
     //var map = L.map('map').setView([46.186504598160354, 21.31672212393795], 11); <- Arad
+    //s3://{bucket}{prefix}/{z}/{x}/{y}.{extension}
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //     attribution: '© OpenStreetMap contributors'
+    // }).addTo(map);
+
+    // L.tileLayer('s3://tile.stamen.com/terrain/{z}/{x}/{y}.png', {
+    //     attribution: 'Map tiles by Stamen Design, under CC BY 4.0. Data by OpenStreetMap, under ODbL.'
+    // }).addTo(map);
+
+    L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}{r}.{ext}', {
+	minZoom: 0,
+	maxZoom: 18,
+	attribution: '&copy; <a href="https://www.stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://www.stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+	ext: 'png'
     }).addTo(map);
+    //stadia statem terrain
 
-    
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     //document.getElementById('deviceready').classList.add('ready');
 }

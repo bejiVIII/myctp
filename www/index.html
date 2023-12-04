@@ -22,11 +22,16 @@
         <meta charset="utf-8">
         <meta 
         http-equiv="Content-Security-Policy" 
-        content="default-src 'self' data: gap: https://ssl.gstatic.com https://unpkg.com/ 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https://a.tile.openstreetmap.org/ https://b.tile.openstreetmap.org/ https://c.tile.openstreetmap.org/ https://unpkg.com/; script-src 'self' https://unpkg.com/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://unpkg.com/;">
-        <!-- <meta http-equiv="Content-Security-Policy" content="default-src *;
-        img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *;
-        style-src  'self' 'unsafe-inline' *"> -->
-
+        content="default-src 'self' data: gap: https://ssl.gstatic.com https://unpkg.com/ 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https://tiles.stadiamaps.com/ https://a.tile.openstreetmap.org/ https://b.tile.openstreetmap.org/ https://c.tile.openstreetmap.org/ https://unpkg.com/; script-src 'self' https://unpkg.com/ 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://unpkg.com/;">
+        
+        <!-- <meta 
+        http-equiv="Content-Security-Policy" 
+        content="default-src 'self' data: gap: https://ssl.gstatic.com https://unpkg.com/ 'unsafe-eval' 'unsafe-inline';
+        img-src 'self' https://tile.stamen.com data:;
+        script-src 'self' https://unpkg.com/ 'unsafe-inline' 'unsafe-eval';
+        style-src 'self' 'unsafe-inline' https://unpkg.com/;">     -->
+        
+        
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""/>
